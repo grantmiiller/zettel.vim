@@ -1,5 +1,5 @@
 # Zettel.vim
-WARNING: Requires [Zettel]https://github.com/grantmiiller/zettel
+WARNING: Requires [Zettel](https://github.com/grantmiiller/zettel)
 
 ## Why?
 Didn't really like all the Zettel editors, I use vim a lot, and the other editors required too much setup/plugins.
