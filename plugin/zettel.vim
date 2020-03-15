@@ -97,8 +97,9 @@ function! ZettelPasteLink(...)
     if strlen(l:name) == 17
       execute "normal! i[[" . l:id . "]]"
     else
+      " Tog rab the name, we need to grab only part of the string, which is
+      " the id plus a space (15) and not including the file extension .md(3)
       let l:end = strlen(l:name) - (s:id_len + 1) - 3
-      echom l:end
       let l:note_name = strpart(l:name, s:id_len + 1, l:end)
       execute "normal! i[[" . @a . "]] " . l:note_name
     endif
