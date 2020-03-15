@@ -2,7 +2,7 @@
 WARNING: Requires [Zettel](https://github.com/grantmiiller/zettel)
 
 ## Why?
-Didn't really like all the Zettel editors, I use vim a lot, and the other editors required too much setup/plugins.
+Didn't really like all the Zettel editors, I use vim a lot, and the other vim plugins required too many setup/plugins.
 
 ## Usage
 `:call ZettelNew('<Your Note Name Here>')`
