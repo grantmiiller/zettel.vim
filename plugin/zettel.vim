@@ -1,3 +1,4 @@
+let s:id_len = 14
 
 " Gets the Zettel ID of current file
 function! ZettelGetId(...)
@@ -36,10 +37,15 @@ function! ZettelNew(...)
   execute "e " . l:note_loc
 
   if len(a:000) > 0
-    execute "normal! i# " . a:1
+    " insert the title, then escape to normal mode and go to next line and
+    " into insert mode
+    execute "normal! i# " . a:1 . "\<esc>oi"
+  else
+    execute "normal! i"
   endif
 endfunction
 
+" Helper function to find files
 function! s:ZettelFindFiles(query)
   " The base of our command
   let l:cmd = 'zettel find "' . a:query . '"'
@@ -47,6 +53,8 @@ function! s:ZettelFindFiles(query)
   return split(l:files, '\n')
 endfunction
 
+" Opens the first file it finds either using the <cword> under the cursor or
+" passed argument
 function! ZettelFindFile(...)
   if len(a:000) > 0
     let l:id = a:1
@@ -56,7 +64,7 @@ function! ZettelFindFile(...)
 
   let l:files = s:ZettelFindFiles(l:id)
   if len(l:files) == 0
-    echom "Zettel: Could not find files matching the search."
+    echom "WARNING: Zettel: Could not find files matching the search."
   else
     let l:note_loc = substitute(l:files[0], '\n', '', 'g')
     execute "e " . l:note_loc
@@ -64,4 +72,35 @@ function! ZettelFindFile(...)
 
 endfunction
 
+" Pastes a link to another Zettel note using the passed parameter or what is
+" the `a` register
+function! ZettelPasteLink(...)
+  if len(a:000) > 0
+    let l:id = a:1
+  else
+    let l:id = @a
+  end
 
+  if strlen(l:id) != s:id_len
+    echom "WARNING: Incorrect value in buffer `a`"
+    return -1
+  endif
+
+  let l:files = s:ZettelFindFiles(l:id)
+
+  if len(l:files) == 0
+    echom "WARNING: Zettel: Could not find files matching the search."
+  else
+    let l:note_loc = substitute(l:files[0], '\n', '', 'g')
+    let l:note_list = split(l:note_loc, '/')
+    let l:name = l:note_list[len(l:note_list) - 1]
+    if strlen(l:name) == 17
+      execute "normal! i[[" . l:id . "]]"
+    else
+      let l:end = strlen(l:name) - (s:id_len + 1) - 3
+      echom l:end
+      let l:note_name = strpart(l:name, s:id_len + 1, l:end)
+      execute "normal! i[[" . @a . "]] " . l:note_name
+    endif
+  endif
+endfunction

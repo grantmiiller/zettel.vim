@@ -16,3 +16,6 @@ Didn't really like all the Zettel editors, I use vim a lot, and the other editor
 `:call ZettelFindFile()`
 - With no params, it will attempt to find and open the first note using the `<cword>` the cursor is over
 - With a param, will attempt to find and open the first file using the param as a search word
+
+`:call ZettelPasteLink()`
+- Will insert `[[<note id>]]<optional note name>` under the cursor, using passed parameter or what is in register `a`
