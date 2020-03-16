@@ -39,7 +39,7 @@ function! ZettelNew(...)
   if len(a:000) > 0
     " insert the title, then escape to normal mode and go to next line and
     " into insert mode
-    execute "normal! i# " . a:1 . "\<esc>oi"
+    execute "normal! i# " . a:1 . "\<esc>o"
   else
     execute "normal! i"
   endif
